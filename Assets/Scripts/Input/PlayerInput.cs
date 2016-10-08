@@ -110,7 +110,10 @@ public class PlayerInput : MannBehaviour
         xDirection = start.Position.X - end.Position.X;
         yDirection = start.Position.Y - end.Position.Y;
 
+        for (int i = start.Position.X; i < end.Position.X; i++)
+        {
 
+        }
     }
     // A function to capture nodes from a start node position and an end node position
 }
