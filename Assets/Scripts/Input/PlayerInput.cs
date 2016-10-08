@@ -142,5 +142,37 @@ public class PlayerInput : MannBehaviour
                 }
             }
         }
+        else if ((start.Position.X < end.Position.X && start.Position.Y < end.Position.Y) && (DistanceBetwenTwoPositions(start.Position.X, end.Position.X) == DistanceBetwenTwoPositions(start.Position.Y, end.Position.Y)))
+        {
+            // Top right
+            for (int i = 0; i <= moveValueX; i++)
+            {
+                Game.Instance.GetNode(new Position(start.Position.X + i, start.Position.Y + i)).Owner = Player.Instance;
+            }
+        }
+        else if ((start.Position.X < end.Position.X && start.Position.Y > end.Position.Y) && (DistanceBetwenTwoPositions(start.Position.X, end.Position.X) == DistanceBetwenTwoPositions(start.Position.Y, end.Position.Y)))
+        {
+            // Bottom right
+            for (int i = 0; i <= moveValueX; i++)
+            {
+                Game.Instance.GetNode(new Position(start.Position.X + i, start.Position.Y - i)).Owner = Player.Instance;
+            }
+        }
+        else if ((start.Position.X > end.Position.X && start.Position.Y < end.Position.Y) && (DistanceBetwenTwoPositions(start.Position.X, end.Position.X) == DistanceBetwenTwoPositions(start.Position.Y, end.Position.Y)))
+        {
+            // Top left
+            for (int i = 0; i <= moveValueX; i++)
+            {
+                Game.Instance.GetNode(new Position(start.Position.X - i, start.Position.Y + i)).Owner = Player.Instance;
+            }
+        }
+        else if ((start.Position.X > end.Position.X && start.Position.Y > end.Position.Y) && (DistanceBetwenTwoPositions(start.Position.X, end.Position.X) == DistanceBetwenTwoPositions(start.Position.Y, end.Position.Y)))
+        {
+            // Bottom left
+            for (int i = 0; i <= moveValueX; i++)
+            {
+                Game.Instance.GetNode(new Position(start.Position.X - i, start.Position.Y - i)).Owner = Player.Instance;
+            }
+        }
     }
 }
