@@ -34,25 +34,31 @@ public class PlayerInput : MannBehaviour
     {
         // A timer to track how long the player is hovering over a node
         timer += Time.deltaTime;
-
+		Player player = Player.Instance;
         // Start to capture node - check node owner
-        if (node.IsOwned && node.Owner != Player.Instance)
+		if (node.IsOwned && node.Owner != player)
         {
             // Node is captured and does not belong to the player
             if (timer > captureEnemyNodeTime)
             {
-                node.Owner = Player.Instance;
-            }
+                node.Owner = player;
+			} else {
+				node.UpdateCaptureProgress(player, timer / captureEmptyNodeTime);
+			}
         }
         else if (!node.IsOwned)
         {
             // Node is not captured
             if(timer > captureEmptyNodeTime)
             {
-                node.Owner = Player.Instance;
-            }
+                node.Owner = player;
+			} else {
+				node.UpdateCaptureProgress(player, timer / captureEmptyNodeTime);
+			}
 
-        }
+		} else if (node.Owner == player) {
+			node.Link(player);
+		}
     }
     // A function for tracking mouse position leaving node objects
     void OnMouseExit()

@@ -19,23 +19,27 @@ public class WorldObjectBehaviour : MannBehaviour {
 
 	protected override void SetReferences () {
 		_renderers = GetComponentsInChildren<Renderer>();
-
+		if (_renderers.Length >= 1) {
+			Colour = _renderers[0].material.color;
+		}
 	}
 
-	protected void setColour (Color colour) {
-		this.Colour = colour;
-		refreshColour();
+	protected void setColour (Color colour, bool updateStoredColor = true) {
+		if (updateStoredColor) {
+			this.Colour = colour;
+		}
+		refreshColour(colour);
 	}
 
-	protected void refreshColour () {
+	protected void refreshColour (Color color) {
 		if (_renderers != null) {
 			foreach (Renderer renderer in _renderers) {
-				refreshRenderer(renderer);
+				refreshRenderer(renderer, color);
 			}
 		}
 	}
 
-	void refreshRenderer (Renderer renderer) {
-		renderer.material.color = Colour;
+	void refreshRenderer (Renderer renderer, Color color) {
+		renderer.material.color = color;
 	}
 }

@@ -61,13 +61,22 @@ public class Node : StaticObjectBehaviour {
 		this.Owner = agent;
 		return openConnection(agent);
 	}
-
+		
 	protected Connection openConnection (Agent agent) {
 		agent.CloseConnection(this);
 		Connection connection = spawnConnection();
 		connections.Add(connection);
 		agent.OpenConnection(this, connection);
 		return connection;
+	}
+
+	public void Link (Agent agent) {
+		openConnection(agent);
+	}
+
+	// Capture Progress should be clamped between 0..1.0f
+	public void UpdateCaptureProgress (Agent agent, float captureProgress) {
+		setColour(Color.Lerp(Colour, agent.Colour, captureProgress), false);
 	}
 
 	Connection spawnConnection () {
