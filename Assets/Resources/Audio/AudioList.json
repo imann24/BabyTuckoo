@@ -1,0 +1,22 @@
+{
+	"Files": [
+		{
+			"Name":"Demo",
+			"Groups":["DemoGroup"],
+			"Events":["DemoEvent1"],
+			"StopEvents":[],
+			"Loop":false,
+			"Type": "FX",
+			"Channel":2,
+			"Volume": 100
+		},
+	],
+	"Groups" : [
+		{
+			"Name":"DemoGroup",
+			"Type":"Random",
+			"Events":["DemoEvent2"],
+			"StopEvents":[]
+		},
+	]
+}
