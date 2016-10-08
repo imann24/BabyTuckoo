@@ -9,6 +9,8 @@ using System.Collections;
 public abstract class Agent : MobileObjectBehaviour {
 	Game game;
 	HomeNode _home;
+	Connection currentConnection;
+	Node currentNode;
 	public HomeNode Home { 
 		get {
 			return _home;
@@ -24,6 +26,15 @@ public abstract class Agent : MobileObjectBehaviour {
 
 	public void SetGame (Game game) {
 		this.game = game;
+	}
+
+	public void OpenConnection (Node node, Connection connection) {
+		this.currentNode = node;
+		this.currentConnection = connection;
+	}
+
+	public void CloseConnection (Node node) {
+		this.currentConnection.CompleteConnection(node);
 	}
 
 	protected override void FetchReferences () {

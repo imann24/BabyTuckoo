@@ -55,6 +55,7 @@ GameObject:
   - 4: {fileID: 4000013698568104}
   - 114: {fileID: 114000014143535960}
   - 65: {fileID: 65000011556600630}
+  - 114: {fileID: 114000011800282974}
   m_Layer: 0
   m_Name: Node
   m_TagString: Untagged
@@ -187,6 +188,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2, y: 2, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114000011800282974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000013939899422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b6d09097f40bcd48ae6636b8a8957bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  captureEnemyNodeTime: 5
+  captureEmptyNodeTime: 2
 --- !u!114 &114000014143535960
 MonoBehaviour:
   m_ObjectHideFlags: 1
