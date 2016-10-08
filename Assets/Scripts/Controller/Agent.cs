@@ -1,15 +1,25 @@
-﻿using UnityEngine;
+﻿/*
+ * Author(s): Isaiah Mann
+ * Description: Super class for all agents operating in the game world
+ */
+
+using UnityEngine;
 using System.Collections;
 
-public class Agent : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
+public abstract class Agent : MannBehaviour {
+	protected override void CleanupReferences () {
+		// Nothing
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	protected override void FetchReferences () {
+		// Nothing
+	}
+
+	protected override void HandleNamedEvent (string eventName) {
+		// Nothing
+	}
+
+	protected override void SetReferences () {
+		// Nothing
 	}
 }
