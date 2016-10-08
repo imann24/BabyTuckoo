@@ -23,16 +23,20 @@ public class StartController : Controller {
 	}
 
 	void OnMouseDown () {
-		startGame();
+		playStartSequence();
+	}
+
+	void playStartSequence () {
+		startButtonExit();
 	}
 
 	void startGame () {
 		Instantiate(GamePrefab);
-		startButtonExit();
+		destroyStartButton();
 	}
 
 	void startButtonExit () {
-		moveTo(transform.position + Vector3.back * ExitDistance, ExitTime, destroyStartButton);
+		moveTo(transform.position + Vector3.back * ExitDistance, ExitTime, startGame);
 	}
 
 	void destroyStartButton () {
