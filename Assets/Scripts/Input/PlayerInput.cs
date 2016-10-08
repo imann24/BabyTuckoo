@@ -49,7 +49,8 @@ public class PlayerInput : MannBehaviour
             if (timer > captureEnemyNodeTime)
             {
                 node.Owner = Player.Instance;
-                Player.Instance.lastCapturedNode = node;
+                //Player.Instance.lastCapturedNode = node;
+                CaptureNodesChain(Game.Instance.GetNode(new Position(0,0)), node);
             }
         }
         else if (!node.IsOwned)
@@ -58,7 +59,8 @@ public class PlayerInput : MannBehaviour
             if(timer > captureEmptyNodeTime)
             {
                 node.Owner = Player.Instance;
-                Player.Instance.lastCapturedNode = node;
+                //Player.Instance.lastCapturedNode = node;
+                CaptureNodesChain(Game.Instance.GetNode(new Position(0, 0)), node);
             }
 
         }
@@ -92,7 +94,7 @@ public class PlayerInput : MannBehaviour
     void CaptureNodesChain(Node start, Node end)
     {
         int xDiff, yDiff;
-        int moveValue;
+        int moveValue = 0;
         xDiff = Mathf.Abs(start.Position.X - end.Position.X);
         yDiff = Mathf.Abs(start.Position.Y - end.Position.Y);
         if (xDiff == yDiff)
@@ -110,9 +112,30 @@ public class PlayerInput : MannBehaviour
         xDirection = start.Position.X - end.Position.X;
         yDirection = start.Position.Y - end.Position.Y;
 
-        for (int i = start.Position.X; i < end.Position.X; i++)
+        if((xDirection > 0 && yDirection > 0) && isCaptureAngled)
         {
-
+            Debug.Log("X Up Direction");
+            for(int i = start.Position.X; i < end.Position.X; i++)
+            {
+                Game.Instance.GetNode(new Position(start.Position.X + i, start.Position.Y + i)).Owner = Player.Instance;
+            }
+        }
+        else if ((xDirection < 0 && yDirection < 0) && isCaptureAngled)
+        {
+            Debug.Log("X Down Direction");
+            for (int i = start.Position.X; i > end.Position.X; i--)
+            {
+                Game.Instance.GetNode(new Position(start.Position.X + i, start.Position.Y + i)).Owner = Player.Instance;
+            }
+        }
+        else if (!isCaptureAngled)
+        {
+            Debug.Log("Straight direction: " + start.Position.X + " : " + end.Position.X + " :: " + moveValue);
+            for (int i = 0; i < moveValue; i++)
+            {
+                Game.Instance.GetNode(new Position(start.Position.X + moveValue, start.Position.Y)).Owner = Player.Instance;
+                Debug.Log("Catching node");
+            }
         }
     }
     // A function to capture nodes from a start node position and an end node position
