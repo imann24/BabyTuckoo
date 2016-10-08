@@ -28,17 +28,6 @@ public class PlayerInput : MannBehaviour
     private int seconds;
     public int captureEnemyNodeTime = 5;
     public int captureEmptyNodeTime = 2;
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 
     // A function for tracking mouse position entering node objects
     void OnMouseEnter()

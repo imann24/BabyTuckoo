@@ -56,5 +56,5 @@ MonoBehaviour:
     type: 2}
   Width: 20
   Height: 20
-  ZDepth: 50
+  ZDepth: 20
   ScalingFactor: 2
