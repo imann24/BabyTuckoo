@@ -266,3 +266,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GamePrefab: {fileID: 1000010189966444, guid: 2a31d7b9971204ef890dd64ce8e40db0, type: 2}
+  ExitTime: 1.25
+  ExitDistance: 10

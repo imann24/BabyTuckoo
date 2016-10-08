@@ -3,6 +3,8 @@ using System.Collections;
 
 public class StartController : Controller {
 	public GameObject GamePrefab;
+	public float ExitTime = 2.0f;
+	public float ExitDistance = 10.0f;
 
 	protected override void CleanupReferences () {
 		// Nothing
@@ -26,6 +28,14 @@ public class StartController : Controller {
 
 	void startGame () {
 		Instantiate(GamePrefab);
+		startButtonExit();
+	}
+
+	void startButtonExit () {
+		moveTo(transform.position + Vector3.back * ExitDistance, ExitTime, destroyStartButton);
+	}
+
+	void destroyStartButton () {
 		Destroy(gameObject);
 	}
 }
