@@ -18,6 +18,15 @@ public class Game : MannBehaviour {
 		}
 	}
 
+	public bool TryGetHome (Agent agent, out HomeNode home) {
+		if (currentGrid) {
+			return currentGrid.TryGetHome(agent, out home);
+		} else {
+			home = null;
+			return false;
+		}
+	}
+
 	protected override void CleanupReferences () {
 		// Nothing
 	}
@@ -45,7 +54,8 @@ public class Game : MannBehaviour {
 		agents = new Agent[AgentPrefabs.Length];
 		int index = 0;
 		foreach (GameObject agentPrefab in AgentPrefabs) {
-			agents[index++] = Instantiate(agentPrefab).GetComponent<Agent>();
+			agents[index] = Instantiate(agentPrefab).GetComponent<Agent>();
+			agents[index++].SetGame(this);
 		}
 	}
 
