@@ -42,6 +42,14 @@ public class Node : StaticObjectBehaviour {
 		}
 	}
 
+	Agent capturer = null;
+	float captureProgress = 0;
+	public bool IsBeingCaptured {
+		get {
+			return capturer != null;
+		}
+	}
+
 	protected override void SetReferences () {
 		base.SetReferences ();
 	}
@@ -74,9 +82,19 @@ public class Node : StaticObjectBehaviour {
 		openConnection(agent);
 	}
 
+	public void StartCapturing (Agent agent) {
+		this.capturer = agent;
+	}
+
 	// Capture Progress should be clamped between 0..1.0f
 	public void UpdateCaptureProgress (Agent agent, float captureProgress) {
-		setColour(Color.Lerp(Colour, agent.Colour, captureProgress), false);
+		setColour(Color.Lerp(Colour, agent.Colour, this.captureProgress = captureProgress), false);
+	}
+
+	public void EndCapturing () {
+		this.capturer = null;
+		startLerpColor(Colour, captureProgress);
+		captureProgress = 0;
 	}
 
 	Connection spawnConnection () {

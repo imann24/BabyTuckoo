@@ -20,6 +20,10 @@ public abstract class Agent : MobileObjectBehaviour {
 		get {
 			return currentNode;
 		}
+        set
+        {
+            currentNode = value;
+        }
 	}
 
 	public Position StartingPosition;
@@ -42,6 +46,11 @@ public abstract class Agent : MobileObjectBehaviour {
 		if (this.currentConnection) {
 			this.currentConnection.CompleteConnection(node);
 		}
+	}
+
+	protected override void SetReferences () {
+		base.SetReferences ();
+		setColour(Color);
 	}
 
 	protected override void FetchReferences () {
