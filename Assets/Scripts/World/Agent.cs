@@ -20,6 +20,10 @@ public abstract class Agent : MobileObjectBehaviour {
 		get {
 			return currentNode;
 		}
+        set
+        {
+            currentNode = value;
+        }
 	}
 
 	public Position StartingPosition;
