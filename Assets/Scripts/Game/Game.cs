@@ -2,10 +2,21 @@
 using System.Collections.Generic;
 
 public class Game : MannBehaviour {
+	public static Game Instance;
+	public bool IsSingleton = true;
+
 	public GameObject[] AgentPrefabs;
 	Agent[] agents;
 	public GameObject GridPrefab;
 	Grid currentGrid;
+
+	public Node GetNode (Position position) {
+		if (currentGrid) {
+			return currentGrid.GetNode(position);
+		} else {
+			return null;
+		}
+	}
 
 	protected override void CleanupReferences () {
 		// Nothing
@@ -20,8 +31,14 @@ public class Game : MannBehaviour {
 	}
 
 	protected override void SetReferences () {
-		createAgents();
-		createGrid(agents);
+		bool shouldInitialize = true;
+		if (IsSingleton && !SingletonUtil.TryInit(ref Instance, this, gameObject)) {
+			shouldInitialize = false;
+		}
+		if (shouldInitialize) {
+			createAgents();
+			createGrid(agents);
+		}
 	}
 
 	void createAgents () {
