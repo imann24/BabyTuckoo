@@ -52,6 +52,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StartingPosition:
-    X: 0
+    X: 1
     Y: 9
   Color: {r: 0.9411765, g: 0.57389003, b: 0.11764706, a: 1}
