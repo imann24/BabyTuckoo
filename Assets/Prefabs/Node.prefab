@@ -90,6 +90,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46e8d93040e64a13a7324b9e199db3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ConnectionPrefab: {fileID: 1000011965854090, guid: f197bf9a6bd4545a68553ff2b0615cc5,
+    type: 2}
 --- !u!135 &135000010377120364
 SphereCollider:
   m_ObjectHideFlags: 1
