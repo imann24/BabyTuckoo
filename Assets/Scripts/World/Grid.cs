@@ -43,6 +43,7 @@ public class Grid : StaticObjectBehaviour {
 		GameObject nodeObject = Instantiate(NodePrefab, getWorldPosition(position), Quaternion.identity) as GameObject;
 		Node nodeBehaviour = nodeObject.GetComponent<Node>();
 		nodeBehaviour.Position = position;
+		nodeObject.transform.SetParent(transform);
 		return nodeBehaviour;
 	}
 		
