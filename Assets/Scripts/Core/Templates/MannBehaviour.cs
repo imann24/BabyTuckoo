@@ -4,9 +4,12 @@
  */
 
 using UnityEngine;
+using System.Collections;
 
 public abstract class MannBehaviour : MonoBehaviour, System.IComparable {
-	public delegate void EventAction();
+	IEnumerator moveCoroutine;
+	public delegate void MannAction();
+
 	void Awake () {
 		SetReferences();
 		SubscribeEvents();
@@ -82,6 +85,32 @@ public abstract class MannBehaviour : MonoBehaviour, System.IComparable {
 			return this == (other as MannBehaviour) ? 0 : -1;
 		} else {
 			return -1;
+		}
+	}
+
+	protected void moveTo (Vector3 targetPosition, float time, MannAction callBack = null) {
+		haltMoveTo();
+		moveCoroutine = linearLerp(transform, targetPosition, time, callBack);
+		StartCoroutine(moveCoroutine);
+	}
+
+	protected void haltMoveTo () {
+		if (moveCoroutine != null) {
+			StopCoroutine(moveCoroutine);
+		}
+	}
+
+	protected IEnumerator linearLerp (Transform transform, Vector3 targetPosition, float totalTime, MannAction callBack = null) {
+		float timer = 0;
+		Vector3 startPosition = transform.position;
+		while (timer <= totalTime) {
+			transform.position = Vector3.Lerp(startPosition, targetPosition, timer);
+			timer += Time.deltaTime;
+			yield return new WaitForEndOfFrame();
+		}
+		transform.position = targetPosition;
+		if (callBack != null) {
+			callBack();
 		}
 	}
 }
