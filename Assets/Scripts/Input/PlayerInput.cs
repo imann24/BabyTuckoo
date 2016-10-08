@@ -28,22 +28,13 @@ public class PlayerInput : MannBehaviour
     private int seconds;
     public int captureEnemyNodeTime = 5;
     public int captureEmptyNodeTime = 2;
-    // Use this for initialization
-    void Start()
-    {
+    private bool isCaptureAngled = false;
+    private Node mouseEnterNode;
 
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
-    // A function for tracking mouse position entering node objects
+    // A function for tracking mouse position enter node objects
     void OnMouseEnter()
     {
-        Debug.Log("Hello Node");
+        mouseEnterNode = node;
     }
     // A function for tracking mouse position over node objects
     void OnMouseOver()
@@ -58,7 +49,7 @@ public class PlayerInput : MannBehaviour
             if (timer > captureEnemyNodeTime)
             {
                 node.Owner = Player.Instance;
-                Debug.Log("You captured an enemy node");
+                Player.Instance.lastCapturedNode = node;
             }
         }
         else if (!node.IsOwned)
@@ -67,14 +58,9 @@ public class PlayerInput : MannBehaviour
             if(timer > captureEmptyNodeTime)
             {
                 node.Owner = Player.Instance;
-                Debug.Log("You captured an empty node");
+                Player.Instance.lastCapturedNode = node;
             }
 
-        }
-        else
-        {
-            // Player owns the node
-            Debug.Log("You own this node");
         }
     }
     // A function for tracking mouse position leaving node objects
@@ -83,4 +69,45 @@ public class PlayerInput : MannBehaviour
         // Reset the hover over timer
         timer = 0;
     }
+
+    // A function for checking if a chain can be set up
+    void FindLineOfNodes()
+    {
+        /*
+            Node[] nodesToCapture = new Node[3];
+            for (int i = 0; i < 3; i++)
+            {
+                if (isCaptureAngled)
+                {
+                    // Capture chain needs to loop through the correct nodes and capture them
+                }
+                else if(!isCaptureAngled)
+                {
+                    // Capture chain is not angled so loop and capture nodes
+                }
+            }
+            */
+    }
+    // A function for finding the distance between two nodes
+    void DistanceBetweenTwoNodes(Node start, Node end)
+    {
+        int xDiff, yDiff;
+        int moveValue;
+        xDiff = Mathf.Abs(start.Position.X - end.Position.X);
+        yDiff = Mathf.Abs(start.Position.Y - end.Position.Y);
+        if (xDiff == yDiff)
+        {
+            isCaptureAngled = true;
+            moveValue = (xDiff > 0) ? xDiff : yDiff;
+        }
+        else if (xDiff == 0 || yDiff == 0)
+        {
+            isCaptureAngled = false;
+            moveValue = (xDiff > 0) ? xDiff : yDiff;
+        }
+        if (isCaptureAngled)
+        {
+        }
+    }
+    // A function to capture nodes from a start node position and an end node position
 }

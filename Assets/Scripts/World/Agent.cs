@@ -12,6 +12,8 @@ public abstract class Agent : MobileObjectBehaviour {
 	public void Win () {
 		EventController.Event(Event.WIN);
 	}
+
+    public Node lastCapturedNode;
 }
 
 public enum AgentState {
