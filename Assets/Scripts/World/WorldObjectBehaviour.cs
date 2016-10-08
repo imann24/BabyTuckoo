@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class WorldObjectBehaviour : MannBehaviour {
-	protected Renderer _renderer;
+	protected Renderer[] _renderers;
 	public Color Colour {get; private set;}
 
 	protected override void CleanupReferences () {
@@ -18,7 +18,7 @@ public class WorldObjectBehaviour : MannBehaviour {
 	}
 
 	protected override void SetReferences () {
-		_renderer = GetComponent<Renderer>();
+		_renderers = GetComponentsInChildren<Renderer>();
 
 	}
 
@@ -28,8 +28,14 @@ public class WorldObjectBehaviour : MannBehaviour {
 	}
 
 	protected void refreshColour () {
-		if (_renderer) {
-			_renderer.material.color = Colour;	
+		if (_renderers != null) {
+			foreach (Renderer renderer in _renderers) {
+				refreshRenderer(renderer);
+			}
 		}
+	}
+
+	void refreshRenderer (Renderer renderer) {
+		renderer.material.color = Colour;
 	}
 }
