@@ -28,6 +28,8 @@ public class WorldObjectBehaviour : MannBehaviour {
 	}
 
 	protected void refreshColour () {
-		_renderer.material.color = Colour;	
+		if (_renderer) {
+			_renderer.material.color = Colour;	
+		}
 	}
 }
