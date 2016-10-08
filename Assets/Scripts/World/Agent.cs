@@ -48,6 +48,11 @@ public abstract class Agent : MobileObjectBehaviour {
 		}
 	}
 
+	protected override void SetReferences () {
+		base.SetReferences ();
+		setColour(Color);
+	}
+
 	protected override void FetchReferences () {
 		base.FetchReferences ();
 		fetchHomeFromGame();

@@ -28,24 +28,39 @@ public class PlayerInput : MannBehaviour
     private int seconds;
     public int captureEnemyNodeTime = 5;
     public int captureEmptyNodeTime = 2;
+	public int MaxCaptureDistance = 3;
+
+	void OnMouseEnter () {
+		node.StartCapturing(Player.Instance);
+	}
+
+	bool canCapture (Player player) {
+		return DistanceBetwenTwoPositions(player.LastCapturedNode.Position.X, node.Position.X) <= MaxCaptureDistance 
+			&& DistanceBetwenTwoPositions(player.LastCapturedNode.Position.Y, node.Position.Y) <= MaxCaptureDistance;
+	}
 
     // A function for tracking mouse position over node objects
     void OnMouseOver()
     {
         // A timer to track how long the player is hovering over a node
         timer += Time.deltaTime;
-
+		Player player = Player.Instance;
         // Start to capture node - check node owner
-        if (node.IsOwned && node.Owner != Player.Instance)
+		if (node.IsOwned && node.Owner != player)
         {
             // Node is captured and does not belong to the player
             if (timer > captureEnemyNodeTime)
             {
-                if (DistanceBetwenTwoPositions(Player.Instance.LastCapturedNode.Position.X, node.Position.X) <= 3 && DistanceBetwenTwoPositions(Player.Instance.LastCapturedNode.Position.Y, node.Position.Y) <= 3)
-                {
-                    CaptureNodes(Player.Instance.LastCapturedNode, node);
-                    Player.Instance.LastCapturedNode = node;
-                }
+				if (canCapture(Player.Instance))
+				{
+					CaptureNodes(Player.Instance.LastCapturedNode, node);
+					Player.Instance.LastCapturedNode = node;
+				}
+
+			} 
+			else if (canCapture(Player.Instance)) 
+			{
+				node.UpdateCaptureProgress(player, timer / captureEmptyNodeTime);
 			}
         }
         else if (!node.IsOwned)
@@ -53,21 +68,31 @@ public class PlayerInput : MannBehaviour
             // Node is not captured
             if(timer > captureEmptyNodeTime)
             {
-                //node.Owner = Player.Instance;
-                if (DistanceBetwenTwoPositions(Player.Instance.LastCapturedNode.Position.X, node.Position.X) <= 3 && DistanceBetwenTwoPositions(Player.Instance.LastCapturedNode.Position.Y, node.Position.Y) <= 3) {
-                    CaptureNodes(Player.Instance.LastCapturedNode, node);
-                    Player.Instance.LastCapturedNode = node;
-                }
-            }
+				//node.Owner = Player.Instance;
+				if (canCapture(Player.Instance))
+				{
+					CaptureNodes(Player.Instance.LastCapturedNode, node);
+					Player.Instance.LastCapturedNode = node;
+				}			
+			}
+			else if (canCapture(Player.Instance)) 
+			{
+				node.UpdateCaptureProgress(player, timer / captureEmptyNodeTime);
+			}
 
-        }
-	}
+		} 
+		else if (node.Owner == player) {
+			node.Link(player);
+		}
+    }
+           
 
     // A function for tracking mouse position leaving node objects
     void OnMouseExit()
     {
         // Reset the hover over timer
         timer = 0;
+		node.EndCapturing();
     }
     // A function to return the distance between two nodes
     int DistanceBetwenTwoPositions(int value1, int value2)
