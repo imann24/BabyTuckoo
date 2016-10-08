@@ -49,6 +49,7 @@ public class Node : StaticObjectBehaviour {
 	protected virtual void setOwner (Agent owner) {
 		setColour(owner.Color);
 		this._owner = owner;
+		openConnection(owner);
 	}
 
 	void setPosition (Position position) {
