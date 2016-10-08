@@ -2,6 +2,9 @@
 using System.Collections;
 
 public class WorldObjectBehaviour : MannBehaviour {
+	protected Renderer _renderer;
+	public Color Colour {get; private set;}
+
 	protected override void CleanupReferences () {
 		// Nothing
 	}
@@ -15,6 +18,16 @@ public class WorldObjectBehaviour : MannBehaviour {
 	}
 
 	protected override void SetReferences () {
-		// Nothing
+		_renderer = GetComponent<Renderer>();
+
+	}
+
+	protected void setColour (Color colour) {
+		this.Colour = colour;
+		refreshColour();
+	}
+
+	protected void refreshColour () {
+		_renderer.material.color = Colour;	
 	}
 }
