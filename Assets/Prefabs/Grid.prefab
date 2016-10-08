@@ -51,6 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41e68367edb594b2bb84aebf7cbe502f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NodePrefab: {fileID: 0}
-  Width: 0
-  Height: 0
+  NodePrefab: {fileID: 1000010384938570, guid: 1abde1977dd4e467bac4edeeb9177919, type: 2}
+  HomeNodePrefab: {fileID: 1000013007621636, guid: e8dff7d68044744fa9a5a34b95253307,
+    type: 2}
+  Width: 20
+  Height: 20
+  ZDepth: 50
+  ScalingFactor: 2
