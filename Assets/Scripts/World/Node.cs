@@ -5,8 +5,11 @@
 
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Node : StaticObjectBehaviour {
+	public GameObject ConnectionPrefab;
+
 	Color colour;
 	Agent _owner;
 	Renderer _renderer;
@@ -57,5 +60,9 @@ public class Node : StaticObjectBehaviour {
 
 	void setPosition (Position position) {
 		this._position = position;
+	}
+
+	void beginConnection (Agent agent) {
+		this.Owner = agent;
 	}
 }
