@@ -57,6 +57,8 @@ public class Node : StaticObjectBehaviour {
 	}
 
 	protected Connection beginConnection (Agent agent) {
+		// Close the previous connection
+		agent.CloseConnection(this);
 		this.Owner = agent;
 		return openConnection(agent);
 	}
