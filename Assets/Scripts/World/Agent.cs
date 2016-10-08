@@ -7,5 +7,5 @@ using UnityEngine;
 using System.Collections;
 
 public abstract class Agent : MobileObjectBehaviour {
-
+	public Color Color = Color.white;
 }
