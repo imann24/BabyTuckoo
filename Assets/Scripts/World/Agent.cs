@@ -7,6 +7,7 @@ using UnityEngine;
 using System.Collections;
 
 public abstract class Agent : MobileObjectBehaviour {
+	public Position StartingPosition;
 	public Color Color = Color.white;
 
 	public void Win () {
