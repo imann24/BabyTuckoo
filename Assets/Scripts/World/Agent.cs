@@ -16,6 +16,11 @@ public abstract class Agent : MobileObjectBehaviour {
 			return _home;
 		}
 	}
+	public Node LastCapturedNode {
+		get {
+			return currentNode;
+		}
+	}
 
 	public Position StartingPosition;
 	public Color Color = Color.white;
@@ -43,7 +48,9 @@ public abstract class Agent : MobileObjectBehaviour {
 	}
 
 	void fetchHomeFromGame () {
-		this.game.TryGetHome(this, out _home);
+		if (this.game.TryGetHome(this, out _home)) {
+			currentNode = _home;
+		}
 	}
 }
 
