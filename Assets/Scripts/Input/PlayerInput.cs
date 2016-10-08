@@ -74,22 +74,22 @@ public class PlayerInput : MannBehaviour
     void FindLineOfNodes()
     {
         /*
-            Node[] nodesToCapture = new Node[3];
-            for (int i = 0; i < 3; i++)
+        Node[] nodesToCapture = new Node[3];
+        for (int i = 0; i < 3; i++)
+        {
+            if (isCaptureAngled)
             {
-                if (isCaptureAngled)
-                {
-                    // Capture chain needs to loop through the correct nodes and capture them
-                }
-                else if(!isCaptureAngled)
-                {
-                    // Capture chain is not angled so loop and capture nodes
-                }
+                // Capture chain needs to loop through the correct nodes and capture them
             }
-            */
+            else if(!isCaptureAngled)
+            {
+                // Capture chain is not angled so loop and capture nodes
+            }
+        }
+        */
     }
     // A function for finding the distance between two nodes
-    void DistanceBetweenTwoNodes(Node start, Node end)
+    void CaptureNodesChain(Node start, Node end)
     {
         int xDiff, yDiff;
         int moveValue;
@@ -105,9 +105,12 @@ public class PlayerInput : MannBehaviour
             isCaptureAngled = false;
             moveValue = (xDiff > 0) ? xDiff : yDiff;
         }
-        if (isCaptureAngled)
-        {
-        }
+        // Grabbing direction of nodes
+        int xDirection, yDirection;
+        xDirection = start.Position.X - end.Position.X;
+        yDirection = start.Position.Y - end.Position.Y;
+
+
     }
     // A function to capture nodes from a start node position and an end node position
 }
