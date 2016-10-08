@@ -58,14 +58,15 @@ public class Node : StaticObjectBehaviour {
 
 	protected Connection beginConnection (Agent agent) {
 		// Close the previous connection
-		agent.CloseConnection(this);
 		this.Owner = agent;
 		return openConnection(agent);
 	}
 
 	protected Connection openConnection (Agent agent) {
+		agent.CloseConnection(this);
 		Connection connection = spawnConnection();
 		connections.Add(connection);
+		agent.OpenConnection(this, connection);
 		return connection;
 	}
 
@@ -76,6 +77,7 @@ public class Node : StaticObjectBehaviour {
 		return connectionBehaviour;
 	}
 
+	// TODO: Remove this (for debugging only)
 	void OnMouseDown () {
 		beginConnection(Player.Instance);
 	}

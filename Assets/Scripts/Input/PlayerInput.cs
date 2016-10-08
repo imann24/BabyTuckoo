@@ -29,11 +29,6 @@ public class PlayerInput : MannBehaviour
     public int captureEnemyNodeTime = 5;
     public int captureEmptyNodeTime = 2;
 
-    // A function for tracking mouse position entering node objects
-    void OnMouseEnter()
-    {
-        Debug.Log("Hello Node");
-    }
     // A function for tracking mouse position over node objects
     void OnMouseOver()
     {
@@ -47,7 +42,6 @@ public class PlayerInput : MannBehaviour
             if (timer > captureEnemyNodeTime)
             {
                 node.Owner = Player.Instance;
-                Debug.Log("You captured an enemy node");
             }
         }
         else if (!node.IsOwned)
@@ -56,14 +50,8 @@ public class PlayerInput : MannBehaviour
             if(timer > captureEmptyNodeTime)
             {
                 node.Owner = Player.Instance;
-                Debug.Log("You captured an empty node");
             }
 
-        }
-        else
-        {
-            // Player owns the node
-            Debug.Log("You own this node");
         }
     }
     // A function for tracking mouse position leaving node objects

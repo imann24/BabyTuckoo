@@ -39,7 +39,9 @@ public abstract class Agent : MobileObjectBehaviour {
 	}
 
 	public void CloseConnection (Node node) {
-		this.currentConnection.CompleteConnection(node);
+		if (this.currentConnection) {
+			this.currentConnection.CompleteConnection(node);
+		}
 	}
 
 	protected override void FetchReferences () {
