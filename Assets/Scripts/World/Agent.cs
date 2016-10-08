@@ -8,6 +8,10 @@ using System.Collections;
 
 public abstract class Agent : MobileObjectBehaviour {
 	public Color Color = Color.white;
+
+	public void Win () {
+		EventController.Event(Event.WIN);
+	}
 }
 
 public enum AgentState {
