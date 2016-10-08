@@ -46,7 +46,7 @@ public class Node : StaticObjectBehaviour {
 		base.SetReferences ();
 	}
 
-	void setOwner (Agent owner) {
+	protected virtual void setOwner (Agent owner) {
 		setColour(owner.Color);
 		this._owner = owner;
 	}
@@ -55,8 +55,12 @@ public class Node : StaticObjectBehaviour {
 		this._position = position;
 	}
 
-	Connection beginConnection (Agent agent) {
+	protected Connection beginConnection (Agent agent) {
 		this.Owner = agent;
+		return openConnection(agent);
+	}
+
+	protected Connection openConnection (Agent agent) {
 		Connection connection = spawnConnection();
 		connections.Add(connection);
 		return connection;

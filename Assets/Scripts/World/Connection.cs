@@ -21,7 +21,11 @@ public class Connection : StaticObjectBehaviour {
 		this.startNode = node;
 		setStartPosition(node.WorldPosition);
 		// TEMP: Remove this after we set up visual tracking
-		StartTrackingMouse();
+		if (node.Owner is Player) {
+			StartTrackingMouse();
+		} else {
+			setEndPosition(node.WorldPosition);
+		}
 		setColour(node.Colour);
 	}
 

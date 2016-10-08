@@ -21,8 +21,7 @@ public class Game : MannBehaviour {
 
 	protected override void SetReferences () {
 		createAgents();
-		createGrid();
-		currentGrid.AddHomeNodes(agents);
+		createGrid(agents);
 	}
 
 	void createAgents () {
@@ -42,8 +41,9 @@ public class Game : MannBehaviour {
 		}
 	}
 
-	void createGrid () {
+	void createGrid (Agent[] agents) {
 		currentGrid = Instantiate(GridPrefab).GetComponent<Grid>();
+		currentGrid.SetupGrid(agents);
 	}
 
 	void teardownGrid () {
