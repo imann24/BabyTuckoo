@@ -9,10 +9,8 @@ using System.Collections.Generic;
 
 public class Node : StaticObjectBehaviour {
 	public GameObject ConnectionPrefab;
-
-	Color colour;
+	List<Connection> connections = new List<Connection>();
 	Agent _owner;
-	Renderer _renderer;
 	Position _position;
 
 	public Agent Owner {
@@ -32,7 +30,12 @@ public class Node : StaticObjectBehaviour {
 			setPosition(value);
 		}
 	}
-		
+	public Vector3 WorldPosition {
+		get {
+			return transform.position;
+		}
+	}
+
 	public bool IsOwned {
 		get {
 			return Owner != null;
@@ -41,7 +44,6 @@ public class Node : StaticObjectBehaviour {
 
 	protected override void SetReferences () {
 		base.SetReferences ();
-		_renderer = GetComponent<Renderer>();
 	}
 
 	void setOwner (Agent owner) {
@@ -49,20 +51,25 @@ public class Node : StaticObjectBehaviour {
 		this._owner = owner;
 	}
 
-	void setColour (Color colour) {
-		this.colour = colour;
-		refreshColour();
-	}
-
-	void refreshColour () {
-		_renderer.material.color = colour;	
-	}
-
 	void setPosition (Position position) {
 		this._position = position;
 	}
 
-	void beginConnection (Agent agent) {
+	Connection beginConnection (Agent agent) {
 		this.Owner = agent;
+		Connection connection = spawnConnection();
+		connections.Add(connection);
+		return connection;
+	}
+
+	Connection spawnConnection () {
+		GameObject connectionObject = Instantiate(ConnectionPrefab, transform) as GameObject;
+		Connection connectionBehaviour = connectionObject.GetComponent<Connection>();
+		connectionBehaviour.InitializeConnection(this);
+		return connectionBehaviour;
+	}
+
+	void OnMouseDown () {
+		beginConnection(Player.Instance);
 	}
 }
