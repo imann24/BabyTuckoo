@@ -1,29 +1,27 @@
 fileFormatVersion: 2
-guid: 959333ffbac9322409e3e69eff9b652c
-timeCreated: 1475955029
+guid: c67e1b57fbb63364984e2c0b954e22bb
+timeCreated: 1475956666
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: Circle
-    100004: Circle_001
-    100006: Text
-    400000: //RootNode
-    400002: Circle
-    400004: Circle_001
-    400006: Text
+    100000: Circle
+    100002: Circle.001
+    100004: Circle.002
+    100006: //RootNode
+    400000: Circle
+    400002: Circle.001
+    400004: Circle.002
+    400006: //RootNode
     2300000: Circle
-    2300002: Circle_001
-    2300004: Text
+    2300002: Circle.001
+    2300004: Circle.002
     3300000: Circle
-    3300002: Circle_001
-    3300004: Text
-    4300000: Text
-    4300002: Circle_001
+    3300002: Circle.001
+    3300004: Circle.002
+    4300000: Circle.002
+    4300002: Circle.001
     4300004: Circle
-    7400000: Default Take
-    9500000: //RootNode
   materials:
     importMaterials: 1
     materialName: 0
@@ -82,7 +80,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
