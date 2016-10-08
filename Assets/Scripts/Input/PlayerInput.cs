@@ -28,13 +28,11 @@ public class PlayerInput : MannBehaviour
     private int seconds;
     public int captureEnemyNodeTime = 5;
     public int captureEmptyNodeTime = 2;
-    private bool isCaptureAngled = false;
-    private Node mouseEnterNode;
 
-    // A function for tracking mouse position enter node objects
+    // A function for tracking mouse position entering node objects
     void OnMouseEnter()
     {
-        mouseEnterNode = node;
+        Debug.Log("Hello Node");
     }
     // A function for tracking mouse position over node objects
     void OnMouseOver()
@@ -49,8 +47,7 @@ public class PlayerInput : MannBehaviour
             if (timer > captureEnemyNodeTime)
             {
                 node.Owner = Player.Instance;
-                //Player.Instance.lastCapturedNode = node;
-                CaptureNodesChain(Game.Instance.GetNode(new Position(0,0)), node);
+                Debug.Log("You captured an enemy node");
             }
         }
         else if (!node.IsOwned)
@@ -59,10 +56,14 @@ public class PlayerInput : MannBehaviour
             if(timer > captureEmptyNodeTime)
             {
                 node.Owner = Player.Instance;
-                //Player.Instance.lastCapturedNode = node;
-                CaptureNodesChain(Game.Instance.GetNode(new Position(0, 0)), node);
+                Debug.Log("You captured an empty node");
             }
 
+        }
+        else
+        {
+            // Player owns the node
+            Debug.Log("You own this node");
         }
     }
     // A function for tracking mouse position leaving node objects
@@ -71,72 +72,4 @@ public class PlayerInput : MannBehaviour
         // Reset the hover over timer
         timer = 0;
     }
-
-    // A function for checking if a chain can be set up
-    void FindLineOfNodes()
-    {
-        /*
-        Node[] nodesToCapture = new Node[3];
-        for (int i = 0; i < 3; i++)
-        {
-            if (isCaptureAngled)
-            {
-                // Capture chain needs to loop through the correct nodes and capture them
-            }
-            else if(!isCaptureAngled)
-            {
-                // Capture chain is not angled so loop and capture nodes
-            }
-        }
-        */
-    }
-    // A function for finding the distance between two nodes
-    void CaptureNodesChain(Node start, Node end)
-    {
-        int xDiff, yDiff;
-        int moveValue = 0;
-        xDiff = Mathf.Abs(start.Position.X - end.Position.X);
-        yDiff = Mathf.Abs(start.Position.Y - end.Position.Y);
-        if (xDiff == yDiff)
-        {
-            isCaptureAngled = true;
-            moveValue = (xDiff > 0) ? xDiff : yDiff;
-        }
-        else if (xDiff == 0 || yDiff == 0)
-        {
-            isCaptureAngled = false;
-            moveValue = (xDiff > 0) ? xDiff : yDiff;
-        }
-        // Grabbing direction of nodes
-        int xDirection, yDirection;
-        xDirection = start.Position.X - end.Position.X;
-        yDirection = start.Position.Y - end.Position.Y;
-
-        if((xDirection > 0 && yDirection > 0) && isCaptureAngled)
-        {
-            Debug.Log("X Up Direction");
-            for(int i = start.Position.X; i < end.Position.X; i++)
-            {
-                Game.Instance.GetNode(new Position(start.Position.X + i, start.Position.Y + i)).Owner = Player.Instance;
-            }
-        }
-        else if ((xDirection < 0 && yDirection < 0) && isCaptureAngled)
-        {
-            Debug.Log("X Down Direction");
-            for (int i = start.Position.X; i > end.Position.X; i--)
-            {
-                Game.Instance.GetNode(new Position(start.Position.X + i, start.Position.Y + i)).Owner = Player.Instance;
-            }
-        }
-        else if (!isCaptureAngled)
-        {
-            Debug.Log("Straight direction: " + start.Position.X + " : " + end.Position.X + " :: " + moveValue);
-            for (int i = 0; i < moveValue; i++)
-            {
-                Game.Instance.GetNode(new Position(start.Position.X + moveValue, start.Position.Y)).Owner = Player.Instance;
-                Debug.Log("Catching node");
-            }
-        }
-    }
-    // A function to capture nodes from a start node position and an end node position
 }
