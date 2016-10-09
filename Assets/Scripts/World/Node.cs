@@ -90,7 +90,11 @@ public class Node : StaticObjectBehaviour {
 	public Connection ClaimWith (Agent agent) {
 		// Close the previous connection
 		this.Owner = agent;
-		return openConnection(agent);
+		Connection newConnection = openConnection(agent);
+		if (IsBeingCaptured) {
+			EndCapturing();
+		}
+		return newConnection;
 	}
 		
 	protected Connection openConnection (Agent agent) {

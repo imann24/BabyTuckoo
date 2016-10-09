@@ -34,8 +34,8 @@ public class Grid : StaticObjectBehaviour {
 		}
 	}
 
-	public Node GetNodeFromOffset (Node node, int xOffset, int yOffset) {
-		Position position = node.Position.Translate(xOffset, yOffset);
+	public Node GetNodeFromOffset (Node node, Position translation) {
+		Position position = node.Position.Translate(translation.X, translation.Y);
 		if (inBounds(position)) {
 			return GetNode(position);
 		} else {
@@ -108,6 +108,23 @@ public class Grid : StaticObjectBehaviour {
 		} else {
 			return new List<Node>();
 		}
+	}
+
+	public Node GetNearestUnclaimedNode (Node toNode) {
+		Position[] adjacentPositions = toNode.Position.GetPlus();
+		Node[] adjacentNodes = new Node[4];
+		for (int i = 0; i < adjacentPositions.Length; i++) {
+			if ((adjacentNodes[i] = GetNode(adjacentPositions[i])) && !adjacentNodes[i].IsOwned) {
+				return adjacentNodes[i];
+			}
+		}
+		for (int i = 0; i < adjacentNodes.Length; i++) {
+			Node currentNode;
+			if (currentNode = GetNearestUnclaimedNode(adjacentNodes[i])) {
+				return currentNode;
+			}
+		}
+		return null;
 	}
 
 	void initializeCapturedNodeSets (Agent[] agents) {

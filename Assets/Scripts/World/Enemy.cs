@@ -8,6 +8,8 @@ using System.Collections;
 
 public class Enemy : AIAgent {
     public static Enemy Instance;
+	[Range(0, 1.0f)]
+	public float TerritoryVsGoal = 0.5f;
 
     protected override void SetReferences() {
         if (SingletonUtil.TryInit(ref Instance, this, gameObject)) {
@@ -30,7 +32,6 @@ public class Enemy : AIAgent {
 		if (!focusNode) {
 			focusNode = LastCapturedNode;
 		}
-
 		if (isCapturingNode(focusNode)) {
 			return delegate() {keepCapturingNode(focusNode);};
 		} else {
@@ -51,7 +52,9 @@ public class Enemy : AIAgent {
 
 	void moveToNewNode (Node currentFocusNode) {
 		Node nextNode;
-		if (nextNode = game.GetNodeFromOffset(currentFocusNode, -1, 0)) {
+		Position nextPosition = chooseMovePosition();
+		Debug.Log(nextPosition);
+		if (nextNode = game.GetNodeFromOffset(currentFocusNode, nextPosition)) {
 			this.focusNode = nextNode;
 			if (ownsNode(nextNode)) {
 				moveToCapturedNode(nextNode);
@@ -67,5 +70,25 @@ public class Enemy : AIAgent {
 
 	void keepCapturingNode (Node node) {
 		node.TickCapturing();
+	}
+
+	Position chooseMovePosition () {
+		if (Random.Range(0, 1.0f) < TerritoryVsGoal) {
+			return closerToTerritory();
+		} else {
+			return closerToGoal();
+		}
+	}
+
+	Position getCurrentPosition () {
+		return focusNode.Position;
+	}
+
+	Position closerToGoal () {
+		return getCurrentPosition().CloserTo(goalPosition, 1);
+	}
+
+	Position closerToTerritory () {
+		return game.GetNearestUnclaimedNode(focusNode).Position;
 	}
 }

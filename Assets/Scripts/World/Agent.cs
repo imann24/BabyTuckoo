@@ -9,7 +9,6 @@ using System.Collections;
 public abstract class Agent : MobileObjectBehaviour {
 	public float CaptureTimeUnclaimed = 2f;
 	public float CaptureTimeOpponent = 5f;
-
 	protected Game game;
 	HomeNode _home;
 	Connection currentConnection;
@@ -60,14 +59,13 @@ public abstract class Agent : MobileObjectBehaviour {
 
 	protected override void FetchReferences () {
 		base.FetchReferences ();
-		fetchHomeFromGame();
 	}
 
 	protected bool ownsNode (Node node) {
 		return node.Owner == this;
 	}
 
-	void fetchHomeFromGame () {
+	public void FetchHomeFromGame () {
 		if (this.game.TryGetHome(this, out _home)) {
 			currentNode = _home;
 		}

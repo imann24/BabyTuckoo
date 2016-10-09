@@ -10,6 +10,9 @@ public class Game : MannBehaviour {
 	public GameObject GridPrefab;
 	Grid currentGrid;
 
+	Enemy mostRecentEnemy;
+	Player mostRecentPlayer;
+
 	public Node GetNode (Position position) {
 		if (currentGrid) {
 			return currentGrid.GetNode(position);
@@ -52,8 +55,20 @@ public class Game : MannBehaviour {
 	}
 
 	public Node GetNodeFromOffset (Node node, int xOffset, int yOffset) {
+		return GetNodeFromOffset(node, new Position(xOffset, yOffset));	
+	}
+
+	public Node GetNodeFromOffset (Node node, Position position) {
 		if (currentGrid) {
-			return currentGrid.GetNodeFromOffset(node, xOffset, yOffset);
+			return currentGrid.GetNodeFromOffset(node, position);
+		} else {
+			return null;
+		}
+	}
+
+	public Node GetNearestUnclaimedNode (Node toNode) {
+		if (currentGrid) {
+			return currentGrid.GetNearestUnclaimedNode(toNode);
 		} else {
 			return null;
 		}
@@ -79,6 +94,8 @@ public class Game : MannBehaviour {
 		if (shouldInitialize) {
 			createAgents();
 			createGrid(agents);
+			setAgentHomeNodes();
+			setEnemyGoal();
 		}
 	}
 
@@ -87,8 +104,24 @@ public class Game : MannBehaviour {
 		int index = 0;
 		foreach (GameObject agentPrefab in AgentPrefabs) {
 			agents[index] = Instantiate(agentPrefab).GetComponent<Agent>();
-			agents[index++].SetGame(this);
+			agents[index].SetGame(this);
+			if (agents[index] is Enemy) {
+				mostRecentEnemy = agents[index] as Enemy;
+			} else if (agents[index] is Player) {
+				mostRecentPlayer = agents[index] as Player;
+			}
+			index++;
 		}
+	}
+
+	void setAgentHomeNodes () {
+		foreach (Agent agent in agents) {
+			agent.FetchHomeFromGame();
+		}
+	}
+
+	void setEnemyGoal () {
+		mostRecentEnemy.SetGoal(mostRecentPlayer.Home);
 	}
 
 	void teardownAgents () {

@@ -26,6 +26,11 @@ public class AIAgent : Agent {
 	IEnumerator decisionCoroutine;
 	IEnumerator executeCoroutine;
 
+	public virtual void SetGoal (Node node) {
+		goalPosition = node.Position;
+	}
+
+	protected Position goalPosition {private set; get;}
 	protected override void SetReferences () {
 		base.SetReferences();
 		if (!WaitToStart) {
@@ -79,7 +84,7 @@ public class AIAgent : Agent {
 
 	protected virtual MannAction decideNextAction () {
 		return delegate() {
-			Debug.Log("Running");
+			Debug.Log("Override this method in the subclass");
 		};
 	}
 
