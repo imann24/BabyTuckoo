@@ -3,11 +3,32 @@ using System.Collections;
 
 public class PlayerInput : GameInput
 {
+	CaptureableObjectBehaviour capture;
+
     protected override void SetReferences()
     {
 		base.SetReferences();
-        node = this.gameObject.GetComponent<Node>();
+        node = GetComponent<Node>();
+		capture = GetComponent<CaptureableObjectBehaviour>();
     }
+		
+	protected override void FetchReferences () {
+		base.FetchReferences ();
+		setupCapture(Player.Instance);
+	}
+
+	void setupCapture (Agent agent) {
+		float captureTime;
+		if (node.IsOwned && node.Owner != agent) {
+			captureTime = captureEnemyNodeTime;
+		} else if (!node.IsOwned) {
+			captureTime = captureEmptyNodeTime;
+		} else {
+			captureTime = 0;
+		}
+		capture.SetCaptureTime(captureTime, CaptureTimeout);
+		capture.SetCaptureColour(agent.Colour);
+	}
 
     // Variables
     private Node node;
@@ -16,6 +37,7 @@ public class PlayerInput : GameInput
     public int captureEnemyNodeTime = 5;
     public int captureEmptyNodeTime = 2;
 	public int MaxCaptureDistance = 3;
+	public float CaptureTimeout = 2;
 
 	void OnMouseEnter () {
 		if (!InputEnabled) {

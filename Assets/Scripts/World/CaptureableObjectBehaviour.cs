@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class CaptureableObjectBehaviour : WorldObjectBehaviour {
+	MannAction onCaptureBegin;
 	MannAction onCapture;
+	MannActionf onCaptureProgress;
 
-	public Color CaptureColor;
+	public Color CaptureColour;
 	public float CaptureTime;
 	public float CaptureTimeout;
 	IEnumerator captureCoroutine;
@@ -27,8 +29,33 @@ public class CaptureableObjectBehaviour : WorldObjectBehaviour {
 		onCapture -= capture;
 	}
 
+	public void SubscribeToCaptureProgress (MannActionf progress) {
+		onCaptureProgress += progress;
+	}
+
+	public void UnsubscribeFromCaptureProgress (MannActionf progress) {
+		onCaptureProgress -= progress;
+	}
+
+	public void SubscribeToBeginCapture (MannAction begin) {
+		onCaptureBegin += begin;
+	}
+
+	public void UnsubscribeFromBeginCapture (MannAction begin) {
+		onCaptureBegin -= begin;
+	}
+		
 	public void TickCapture () {
 		CaptureTickSpent = false;
+	}
+
+	public void SetCaptureTime (float timeToCapture, float captureTimeout) {
+		this.CaptureTime = timeToCapture;
+		this.CaptureTimeout = captureTimeout;
+	}
+
+	public void SetCaptureColour (Color colour) {
+		this.CaptureColour = colour;
 	}
 
 	void haltCapture () {
@@ -44,7 +71,7 @@ public class CaptureableObjectBehaviour : WorldObjectBehaviour {
 		float timeoutTimer = 0;
 		while (timer <= CaptureTime) {			
 			if (!CaptureTickSpent) {
-				refreshColour(Color.Lerp(Colour, CaptureColor, timer/CaptureTime));
+				refreshColour(Color.Lerp(Colour, CaptureColour, timer/CaptureTime));
 				timer += Time.deltaTime;
 				timeoutTimer = 0;
 			} else {
@@ -53,9 +80,23 @@ public class CaptureableObjectBehaviour : WorldObjectBehaviour {
 			if (timeoutTimer >= CaptureTimeout) {
 				haltCapture();
 			}
+			callOnCaptureProgress(timer / CaptureTime);
 			yield return new WaitForEndOfFrame();
 		}
 		callOnCapture();
+	}
+
+
+	void callOnCaptureBegin () {
+		if (onCaptureBegin != null) {
+			onCaptureBegin();
+		}
+	}
+
+	void callOnCaptureProgress (float progress) {
+		if (onCaptureProgress != null) {
+			onCaptureProgress(progress);
+		}
 	}
 
 	void callOnCapture () {
