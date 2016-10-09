@@ -9,7 +9,8 @@ using System.Collections.Generic;
 
 public class Node : StaticObjectBehaviour {
 	public float ScaleFactor = 1.25f;
-
+	[SerializeField]
+	GameObject highlightParticles;
 	public GameObject ConnectionPrefab;
 	List<Connection> connections = new List<Connection>();
 	Agent _owner;
@@ -101,10 +102,13 @@ public class Node : StaticObjectBehaviour {
 
 	public void Select () {
 		scale(ScaleFactor);
+		//	TODO: Update particles to ParticleSystem (current method is depecrated)
+		highlightParticles.SetActive(true);
 	}
 
 	public void CloseConnection () {
 		scale(1.0f);
+		highlightParticles.SetActive(false);
 	}
 
 	public void Link (Agent agent) {
