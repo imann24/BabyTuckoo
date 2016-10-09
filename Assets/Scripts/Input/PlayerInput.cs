@@ -1,27 +1,35 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerInput : MannBehaviour
+public class PlayerInput : GameInput
 {
-    // Abstract classes got from MannBehaviour
-    protected override void CleanupReferences()
-    {
-        // Nothing
-    }
+	CaptureableObjectBehaviour capture;
 
-    protected override void FetchReferences()
-    {
-        // Nothing
-    }
-
-    protected override void HandleNamedEvent(string eventName)
-    {
-        // Nothing
-    }
     protected override void SetReferences()
     {
-        node = this.gameObject.GetComponent<Node>();
+		base.SetReferences();
+        node = GetComponent<Node>();
+		capture = GetComponent<CaptureableObjectBehaviour>();
     }
+		
+	protected override void FetchReferences () {
+		base.FetchReferences ();
+		setupCapture(Player.Instance);
+	}
+
+	void setupCapture (Agent agent) {
+		float captureTime;
+		if (node.IsOwned && node.Owner != agent) {
+			captureTime = captureEnemyNodeTime;
+		} else if (!node.IsOwned) {
+			captureTime = captureEmptyNodeTime;
+		} else {
+			captureTime = 0;
+		}
+		capture.SetCaptureTime(captureTime, CaptureTimeout);
+		capture.SetCaptureColour(agent.Colour);
+	}
+
     // Variables
     private Node node;
     private float timer;
@@ -29,8 +37,13 @@ public class PlayerInput : MannBehaviour
     public int captureEnemyNodeTime = 5;
     public int captureEmptyNodeTime = 2;
 	public int MaxCaptureDistance = 3;
+	public float CaptureTimeout = 2;
 
 	void OnMouseEnter () {
+		if (!InputEnabled) {
+			return;
+		}
+
 		node.StartCapturing(Player.Instance);
 	}
 
@@ -42,6 +55,10 @@ public class PlayerInput : MannBehaviour
     // A function for tracking mouse position over node objects
     void OnMouseOver()
     {
+		if (!InputEnabled) {
+			return;
+		}
+
         // A timer to track how long the player is hovering over a node
         timer += Time.deltaTime;
 		Player player = Player.Instance;
@@ -90,6 +107,10 @@ public class PlayerInput : MannBehaviour
     // A function for tracking mouse position leaving node objects
     void OnMouseExit()
     {
+		if (!InputEnabled) {
+			return;
+		}
+
         // Reset the hover over timer
         timer = 0;
 		node.EndCapturing();

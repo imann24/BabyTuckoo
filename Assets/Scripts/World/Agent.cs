@@ -64,8 +64,3 @@ public abstract class Agent : MobileObjectBehaviour {
 		}
 	}
 }
-
-public enum AgentState {
-	Idle,
-	Capturing
-}
