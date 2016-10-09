@@ -33,7 +33,6 @@ public class Grid : StaticObjectBehaviour {
 			return allNodes.Except(AllCapturedNodes).ToList();
 		}
 	}
-
 	public Node GetNodeFromOffset (Node node, int xOffset, int yOffset) {
 		Position position = node.Position.Translate(xOffset, yOffset);
 		if (inBounds(position)) {
