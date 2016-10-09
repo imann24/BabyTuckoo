@@ -27,6 +27,30 @@ public class Game : MannBehaviour {
 		}
 	}
 
+	public Agent GetNodeOwner (Node node) {
+		if (currentGrid) {
+			return currentGrid.GetNodeOwner(node);
+		} else {
+			return null;
+		}
+	}
+
+	public List<Node> GetUnclaimedNodes () {
+		if (currentGrid) {
+			return currentGrid.UnclaimedNodes;
+		} else {
+			return new List<Node>();
+		}
+	}
+
+	public List<Node> GetClaimedNodes (Agent agent) {
+		if (currentGrid) {
+			return currentGrid.GetClaimedNodes(agent);
+		} else {
+			return new List<Node>();
+		}
+	}
+
 	protected override void CleanupReferences () {
 		// Nothing
 	}

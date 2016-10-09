@@ -19,7 +19,7 @@ public class StartController : Controller {
 	}
 
 	protected override void SetReferences () {
-		
+		// Nothing
 	}
 
 	void OnMouseDown () {

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Grid : StaticObjectBehaviour {
 	public GameObject NodePrefab;
@@ -15,8 +16,25 @@ public class Grid : StaticObjectBehaviour {
 
 	// Nodes are arranged in cartesian coordinates [x, y]
 	Node[,] nodes;
+	Agent[] agents;
+	List<Node> allNodes = new List<Node>();
+	public List<Node> AllCapturedNodes {
+		get {
+			List<Node> nodes = new List<Node>();
+			foreach (List<Node> list in capturedNodes.Values) {
+				nodes.AddRange(list);
+			}
+			return nodes;
+		}
+	}
 
+	public List<Node> UnclaimedNodes {
+		get {
+			return allNodes.Except(AllCapturedNodes).ToList();
+		}
+	}
 
+	Dictionary<Agent, List<Node>> capturedNodes = new Dictionary<Agent, List<Node>>();
 	public Node GetNode (Position position) {
 		if (inBounds(position)) {
 			return nodes[position.X, position.Y];
@@ -35,6 +53,8 @@ public class Grid : StaticObjectBehaviour {
 	}
 
 	public void SetupGrid (Agent[] agents) {
+		this.agents = agents;
+		initializeCapturedNodeSets(agents);
 		nodes = new Node[Width, Height];
 		for (int x = 0; x < Width; x++) {
 			for (int y = 0; y < Height; y++) {
@@ -44,11 +64,58 @@ public class Grid : StaticObjectBehaviour {
 					nodes[x, y] = spawnHomeNode(agent, currentPosition);
 				} else {
 					nodes[x, y] = spawnNode(currentPosition);
+					allNodes.Add(nodes[x,y]);
 				}
+				nodes[x, y].Grid = this;
 			}
 		}
 	}
+
+	// Returns null if node does not exist
+	public Agent GetNodeOwner (Position position) {
+		Node node = GetNode(position);
+		if (node == null) {
+			return null;
+		} else {
+			return GetNodeOwner(node);
+		}
+	}
+
+	// Returns null if there is no owner
+	public Agent GetNodeOwner (Node node) {
+		foreach (Agent agent in capturedNodes.Keys) {
+			if (capturedNodes[agent].Contains(node)) {
+				return agent;
+			}
+		}
+		return null;
+	}
 		
+	public List<Node> GetClaimedNodes (Agent agent) {
+		List<Node> nodes;
+		if (capturedNodes.TryGetValue(agent, out nodes)) {
+			return nodes;
+		} else {
+			return new List<Node>();
+		}
+	}
+
+	void initializeCapturedNodeSets (Agent[] agents) {
+		foreach (Agent agent in agents) {
+			capturedNodes.Add(agent, new List<Node>());
+		}
+	}
+
+	public void UpdateNodeOwner (Agent owner, Node node) {
+		foreach (Agent agent in agents) {
+			if (agent == owner) {
+				capturedNodes[agent].Add(node);
+			} else if (capturedNodes[agent].Contains(node)) {
+				capturedNodes[agent].Remove(node);
+			}
+		}
+	}
+
 	bool checkForAgent (Position position, Agent[] agentList, out Agent matchingAgent) {
 		foreach (Agent agent in agentList) {
 			if (agent.StartingPosition.Equals(position)) {
