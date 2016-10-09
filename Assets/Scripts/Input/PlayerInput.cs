@@ -18,6 +18,10 @@ public class PlayerInput : GameInput
 	public int MaxCaptureDistance = 3;
 
 	void OnMouseEnter () {
+		if (!InputEnabled) {
+			return;
+		}
+
 		node.StartCapturing(Player.Instance);
 	}
 
@@ -29,6 +33,10 @@ public class PlayerInput : GameInput
     // A function for tracking mouse position over node objects
     void OnMouseOver()
     {
+		if (!InputEnabled) {
+			return;
+		}
+
         // A timer to track how long the player is hovering over a node
         timer += Time.deltaTime;
 		Player player = Player.Instance;
@@ -77,6 +85,10 @@ public class PlayerInput : GameInput
     // A function for tracking mouse position leaving node objects
     void OnMouseExit()
     {
+		if (!InputEnabled) {
+			return;
+		}
+
         // Reset the hover over timer
         timer = 0;
 		node.EndCapturing();

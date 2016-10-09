@@ -5,12 +5,18 @@ public class StartController : Controller {
 	public GameObject GamePrefab;
 	public float ExitTime = 2.0f;
 	public float ExitDistance = 10.0f;
+	CaptureableObjectBehaviour capture;
 
-	protected override void CleanupReferences () {
-		// Nothing
+	protected override void SetReferences () {
+		capture = GetComponent<CaptureableObjectBehaviour>();
 	}
 
+
 	protected override void FetchReferences () {
+		capture.SubscribeToCapture(playStartSequence);
+	}
+		
+	protected override void CleanupReferences () {
 		// Nothing
 	}
 
@@ -18,9 +24,6 @@ public class StartController : Controller {
 		// Nothing
 	}
 
-	protected override void SetReferences () {
-		// Nothing
-	}
 
 	void OnMouseDown () {
 		playStartSequence();
