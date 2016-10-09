@@ -43,6 +43,16 @@ public class Node : StaticObjectBehaviour {
 			setPosition(value);
 		}
 	}
+	public int X {
+		get {
+			return Position.X;
+		}
+	}
+	public int Y {
+		get {
+			return Position.Y;
+		}
+	}
 	public Vector3 WorldPosition {
 		get {
 			return transform.position;
