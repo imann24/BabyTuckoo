@@ -3,6 +3,8 @@ using System.Collections;
 
 public class WorldObjectBehaviour : MannBehaviour {
 	protected Renderer[] _renderers;
+	protected bool [] ignoreColorChanges; // Parallel array to renderers
+
 	public Color Colour {get; private set;}
 	IEnumerator colorCoroutine;
 
@@ -19,8 +21,13 @@ public class WorldObjectBehaviour : MannBehaviour {
 	}
 
 	protected override void SetReferences () {
-		_renderers = GetComponentsInChildren<Renderer>();
+		setRenderers();
 		Colour = sampleColour();
+	}
+
+	void setRenderers () {
+		_renderers = GetComponentsInChildren<Renderer>();
+		refreshColourIgnore();
 	}
 
 	protected void setColour (Color colour, bool updateStoredColour = true) {
@@ -32,8 +39,10 @@ public class WorldObjectBehaviour : MannBehaviour {
 
 	protected void refreshColour (Color colour) {
 		if (_renderers != null) {
-			foreach (Renderer renderer in _renderers) {
-				refreshRenderer(renderer, colour);
+			for (int i = 0; i < _renderers.Length; i++) {
+				if (!ignoreColorChanges[i]) {
+					refreshRenderer(_renderers[i], colour);
+				}
 			}
 		}
 	}
@@ -70,6 +79,18 @@ public class WorldObjectBehaviour : MannBehaviour {
 	protected void haltLerpColor () {
 		if (colorCoroutine != null) {
 			StopCoroutine(colorCoroutine);
+		}
+	}
+
+	protected void refreshColourIgnore () {
+		ignoreColorChanges = new bool[_renderers.Length];
+			for (int i = 0; i < _renderers.Length; i++) {
+			Ignore ignore;
+			if ((ignore = _renderers[i].GetComponent<Ignore>()) && ignore.ColorChange) {
+				ignoreColorChanges[i] = true;
+			} else {
+				ignoreColorChanges[i] = false;
+			}
 		}
 	}
 }
