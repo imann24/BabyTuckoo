@@ -31,6 +31,8 @@ public class Connection : StaticObjectBehaviour {
 
 	public void CompleteConnection (Node node) {
 		this.endNode = node;
+		this.startNode.CloseConnection();
+		this.endNode.Select();
 		setEndPosition(node.WorldPosition);
 		if (IsTrackingMouse) {
 			StopTrackingMouse();
