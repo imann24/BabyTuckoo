@@ -103,7 +103,7 @@ public class Node : StaticObjectBehaviour {
 	public void Select () {
 		scale(ScaleFactor);
 		//	TODO: Update particles to ParticleSystem (current method is depecrated)
-		//	highlightParticles.SetActive(true);
+		highlightParticles.SetActive(true);
 	}
 
 	public void CloseConnection () {
