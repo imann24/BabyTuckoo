@@ -2,6 +2,7 @@
 using System.Collections;
 
 public class CaptureableObjectBehaviour : WorldObjectBehaviour {
+	MannAction onCaptureBegin;
 	MannAction onCapture;
 	MannActionf onCaptureProgress;
 
@@ -36,6 +37,14 @@ public class CaptureableObjectBehaviour : WorldObjectBehaviour {
 		onCaptureProgress -= progress;
 	}
 
+	public void SubscribeToBeginCapture (MannAction begin) {
+		onCaptureBegin += begin;
+	}
+
+	public void UnsubscribeFromBeginCapture (MannAction begin) {
+		onCaptureBegin -= begin;
+	}
+		
 	public void TickCapture () {
 		CaptureTickSpent = false;
 	}
@@ -77,15 +86,22 @@ public class CaptureableObjectBehaviour : WorldObjectBehaviour {
 		callOnCapture();
 	}
 
-	void callOnCapture () {
-		if (onCapture != null) {
-			onCapture();
+
+	void callOnCaptureBegin () {
+		if (onCaptureBegin != null) {
+			onCaptureBegin();
 		}
 	}
 
 	void callOnCaptureProgress (float progress) {
 		if (onCaptureProgress != null) {
 			onCaptureProgress(progress);
+		}
+	}
+
+	void callOnCapture () {
+		if (onCapture != null) {
+			onCapture();
 		}
 	}
 }

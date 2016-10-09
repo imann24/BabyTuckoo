@@ -402,3 +402,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InputEnabled: 1
+  ShouldDisplayPointer: 1
+  VisualPointer: {fileID: 1000010947170468, guid: 557fba16dea924efc9b83a6ace89f0f7,
+    type: 2}

@@ -65,6 +65,7 @@ public class Node : StaticObjectBehaviour {
 	protected override void SetReferences () {
 		base.SetReferences ();
 		capture = GetComponent<CaptureableObjectBehaviour>();
+		capture.SubscribeToCaptureProgress(UpdateCaptureProgress);
 	}
 
 	protected virtual void setOwner (Agent owner) {
@@ -112,6 +113,13 @@ public class Node : StaticObjectBehaviour {
 
 	public void StartCapturing (Agent agent) {
 		this.capturer = agent;
+	}
+
+	// Capture Progress should be clamped between 0..1.0f
+	public void UpdateCaptureProgress (float captureProgress) {
+		if (capturer != null) {
+			UpdateCaptureProgress(this.capturer, captureProgress);
+		}
 	}
 
 	// Capture Progress should be clamped between 0..1.0f

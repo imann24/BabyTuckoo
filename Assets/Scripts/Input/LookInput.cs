@@ -2,6 +2,17 @@
 using System.Collections;
 
 public class LookInput : GameInput {
+	public bool ShouldDisplayPointer = true;
+	public GameObject VisualPointer;
+
+	protected override void SetReferences () {
+		base.SetReferences ();
+		if (ShouldDisplayPointer) {
+			createVisualPointer();
+		}
+	}
+
+
 	void Update () {
 		if (InputEnabled) {
 			GameObject hitObject;
@@ -35,5 +46,9 @@ public class LookInput : GameInput {
 		} else {
 			capture.InitiailizeCapture();
 		}
+	}
+
+	void createVisualPointer () {
+		Instantiate(VisualPointer, transform);
 	}
 }
