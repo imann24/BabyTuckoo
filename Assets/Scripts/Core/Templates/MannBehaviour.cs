@@ -113,4 +113,12 @@ public abstract class MannBehaviour : MonoBehaviour, System.IComparable {
 			callBack();
 		}
 	}
+
+	protected void scale (Transform transform, float scaleFactor) {
+		transform.localScale = new Vector3(scaleFactor, scaleFactor, scaleFactor);
+	}
+
+	protected void scale (float scaleFactor) {
+		scale(transform, scaleFactor);
+	}
 }

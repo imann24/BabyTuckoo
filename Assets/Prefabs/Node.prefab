@@ -201,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   captureEnemyNodeTime: 5
   captureEmptyNodeTime: 2
+  MaxCaptureDistance: 3
 --- !u!114 &114000014143535960
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -212,5 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e46e8d93040e64a13a7324b9e199db3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScaleFactor: 1.5
   ConnectionPrefab: {fileID: 1000011965854090, guid: f197bf9a6bd4545a68553ff2b0615cc5,
     type: 2}

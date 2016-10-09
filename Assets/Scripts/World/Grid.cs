@@ -62,6 +62,7 @@ public class Grid : StaticObjectBehaviour {
 				Position currentPosition = new Position(x, y);
 				if (checkForAgent(currentPosition, agents, out agent)) {
 					nodes[x, y] = spawnHomeNode(agent, currentPosition);
+					nodes[x, y].Select();
 				} else {
 					nodes[x, y] = spawnNode(currentPosition);
 					allNodes.Add(nodes[x,y]);

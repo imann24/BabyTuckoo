@@ -8,6 +8,8 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class Node : StaticObjectBehaviour {
+	public float ScaleFactor = 1.25f;
+
 	public GameObject ConnectionPrefab;
 	List<Connection> connections = new List<Connection>();
 	Agent _owner;
@@ -91,6 +93,14 @@ public class Node : StaticObjectBehaviour {
 		connections.Add(connection);
 		agent.OpenConnection(this, connection);
 		return connection;
+	}
+
+	public void Select () {
+		scale(ScaleFactor);
+	}
+
+	public void CloseConnection () {
+		scale(1.0f);
 	}
 
 	public void Link (Agent agent) {
