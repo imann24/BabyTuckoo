@@ -74,6 +74,7 @@ public class CaptureableObjectBehaviour : WorldObjectBehaviour {
 				refreshColour(Color.Lerp(Colour, CaptureColour, timer/CaptureTime));
 				timer += Time.deltaTime;
 				timeoutTimer = 0;
+				CaptureTickSpent = true;
 			} else {
 				timeoutTimer += Time.deltaTime;
 			}
