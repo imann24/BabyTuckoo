@@ -51,6 +51,14 @@ public class Game : MannBehaviour {
 		}
 	}
 
+	public Node GetNodeFromOffset (Node node, int xOffset, int yOffset) {
+		if (currentGrid) {
+			return currentGrid.GetNodeFromOffset(node, xOffset, yOffset);
+		} else {
+			return null;
+		}
+	}
+
 	protected override void CleanupReferences () {
 		// Nothing
 	}

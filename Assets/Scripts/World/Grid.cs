@@ -34,6 +34,15 @@ public class Grid : StaticObjectBehaviour {
 		}
 	}
 
+	public Node GetNodeFromOffset (Node node, int xOffset, int yOffset) {
+		Position position = node.Position.Translate(xOffset, yOffset);
+		if (inBounds(position)) {
+			return GetNode(position);
+		} else {
+			return null;
+		}
+	}
+
 	Dictionary<Agent, List<Node>> capturedNodes = new Dictionary<Agent, List<Node>>();
 	public Node GetNode (Position position) {
 		if (inBounds(position)) {
