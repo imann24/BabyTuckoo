@@ -15,6 +15,8 @@ public class Node : StaticObjectBehaviour {
 	Agent _owner;
 	Position _position;
 	Grid _grid;
+	CaptureableObjectBehaviour capture;
+
 	public Grid  Grid {
 		get {
 			return _grid;
@@ -62,6 +64,7 @@ public class Node : StaticObjectBehaviour {
 
 	protected override void SetReferences () {
 		base.SetReferences ();
+		capture = GetComponent<CaptureableObjectBehaviour>();
 	}
 
 	protected virtual void setOwner (Agent owner) {

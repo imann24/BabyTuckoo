@@ -9,6 +9,7 @@ using System.Collections;
 public abstract class MannBehaviour : MonoBehaviour, System.IComparable {
 	IEnumerator moveCoroutine;
 	public delegate void MannAction();
+	public delegate void MannActionf(float mannFloat);
 
 	void Awake () {
 		SetReferences();
