@@ -55,6 +55,7 @@ GameObject:
   - 4: {fileID: 4000014222921590}
   - 65: {fileID: 65000010823273314}
   - 114: {fileID: 114000013552400968}
+  - 114: {fileID: 114000013332023260}
   m_Layer: 0
   m_Name: Start
   m_TagString: Untagged
@@ -254,6 +255,21 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 1, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114000013332023260
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011929431894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5a010cc12a47407399035d7af7a75e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CaptureColor: {r: 1, g: 0.272, b: 0.734, a: 1}
+  CaptureTime: 5
+  CaptureTimeout: 2
+  CaptureTickSpent: 0
 --- !u!114 &114000013552400968
 MonoBehaviour:
   m_ObjectHideFlags: 1
