@@ -25,4 +25,8 @@ public struct Position {
 	public override int GetHashCode () {
 		return X.GetHashCode() + Y.GetHashCode();
 	}
+
+	public Position Translate (int deltaX, int deltaY) {
+		return new Position(X + deltaX, Y + deltaY);
+	}
 }
