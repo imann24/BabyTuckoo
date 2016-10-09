@@ -43,6 +43,7 @@ GameObject:
   - 4: {fileID: 400004}
   - 114: {fileID: 11400010}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 114000013255093730}
   m_Layer: 0
   m_Name: OVRCameraRig
   m_TagString: Untagged
@@ -159,7 +160,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100004}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -389,3 +390,18 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &114000013255093730
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e84c33ed3df436a9cbf048f20a47fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  InputEnabled: 1
+  ShouldDisplayPointer: 1
+  VisualPointer: {fileID: 1000010947170468, guid: 557fba16dea924efc9b83a6ace89f0f7,
+    type: 2}
