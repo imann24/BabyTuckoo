@@ -12,7 +12,15 @@ public class Node : StaticObjectBehaviour {
 	List<Connection> connections = new List<Connection>();
 	Agent _owner;
 	Position _position;
-
+	Grid _grid;
+	public Grid  Grid {
+		get {
+			return _grid;
+		}
+		set {
+			setGrid(value);
+		}
+	}
 	public Agent Owner {
 		get {
 			return _owner;
@@ -57,11 +65,18 @@ public class Node : StaticObjectBehaviour {
 	protected virtual void setOwner (Agent owner) {
 		setColour(owner.Color);
 		this._owner = owner;
+		if (this._grid && !(this is HomeNode)) {
+			this._grid.UpdateNodeOwner(owner, this);
+		}
 		openConnection(owner);
 	}
 
 	void setPosition (Position position) {
 		this._position = position;
+	}
+
+	void setGrid (Grid grid) {
+		this._grid = grid;
 	}
 
 	protected Connection beginConnection (Agent agent) {
