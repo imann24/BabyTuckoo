@@ -1,27 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerInput : MannBehaviour
+public class PlayerInput : GameInput
 {
-    // Abstract classes got from MannBehaviour
-    protected override void CleanupReferences()
-    {
-        // Nothing
-    }
-
-    protected override void FetchReferences()
-    {
-        // Nothing
-    }
-
-    protected override void HandleNamedEvent(string eventName)
-    {
-        // Nothing
-    }
     protected override void SetReferences()
     {
+		base.SetReferences();
         node = this.gameObject.GetComponent<Node>();
     }
+
     // Variables
     private Node node;
     private float timer;
