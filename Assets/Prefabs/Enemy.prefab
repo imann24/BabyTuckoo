@@ -55,3 +55,5 @@ MonoBehaviour:
     X: 18
     Y: 9
   Color: {r: 0.9705882, g: 0.24978374, b: 0.24978374, a: 1}
+  DecisionTime: 2
+  ExecuteTime: 1.5

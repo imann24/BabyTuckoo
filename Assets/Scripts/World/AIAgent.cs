@@ -11,6 +11,8 @@ using System.Linq;
 
 public class AIAgent : Agent {
 	public float DecisionTime = 2.0f;
+	public float ExecuteTime = 1.5f;
+	public bool WaitToStart = true;
 	Queue<MannAction> futureActions = new Queue<MannAction>();
 	bool _isActive = true;
 	public bool IsActive {
@@ -25,8 +27,15 @@ public class AIAgent : Agent {
 	IEnumerator executeCoroutine;
 
 	protected override void SetReferences () {
-		base.SetReferences ();
+		base.SetReferences();
+		if (!WaitToStart) {
+			startLogic();
+		}
+	}
+
+	protected void startLogic () {
 		startDecisionLoop();
+		startExecuteLoop();
 	}
 
 	protected void startDecisionLoop () {
@@ -40,7 +49,7 @@ public class AIAgent : Agent {
 			StopCoroutine(decisionCoroutine);
 		}
 	}
-
+		
 	IEnumerator decisionLoop (float decisionTime) {
 		while (IsActive) {
 			futureActions.Enqueue(decideNextAction());
@@ -48,13 +57,37 @@ public class AIAgent : Agent {
 		}
 	}
 
+	protected void startExecuteLoop () {
+		haltExecuteLoop();
+		executeCoroutine = executeLoop(ExecuteTime);
+		StartCoroutine(executeCoroutine);
+	}
+
+	protected void haltExecuteLoop () {
+		if (executeCoroutine != null) {
+			StopCoroutine(executeCoroutine);
+		}
+	}
+
+	IEnumerator executeLoop (float executTime) {
+		while (IsActive) {
+			yield return new WaitUntil(hasNextAction);
+			executeNextAction();
+			yield return new WaitForSeconds(executTime);
+		}
+	}
+
 	protected virtual MannAction decideNextAction () {
-		return delegate {
+		return delegate() {
 			Debug.Log("Running");
 		};
 	}
 
 	protected virtual void executeNextAction () {
 		futureActions.Dequeue()();
+	}
+
+	protected virtual bool hasNextAction () {
+		return futureActions.Count > 0;
 	}
 }

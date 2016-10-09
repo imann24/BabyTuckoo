@@ -29,4 +29,8 @@ public struct Position {
 	public Position Translate (int deltaX, int deltaY) {
 		return new Position(X + deltaX, Y + deltaY);
 	}
+
+	public override string ToString () {
+		return string.Format ("({0}, {1})", X, Y);
+	}
 }

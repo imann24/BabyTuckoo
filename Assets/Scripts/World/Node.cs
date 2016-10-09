@@ -17,6 +17,7 @@ public class Node : StaticObjectBehaviour {
 	Position _position;
 	Grid _grid;
 	CaptureableObjectBehaviour capture;
+	IEnumerator autoCaptureCoroutine;
 
 	public Grid  Grid {
 		get {
@@ -86,7 +87,7 @@ public class Node : StaticObjectBehaviour {
 		this._grid = grid;
 	}
 
-	protected Connection beginConnection (Agent agent) {
+	public Connection ClaimWith (Agent agent) {
 		// Close the previous connection
 		this.Owner = agent;
 		return openConnection(agent);
@@ -117,6 +118,32 @@ public class Node : StaticObjectBehaviour {
 
 	public void StartCapturing (Agent agent) {
 		this.capturer = agent;
+		if (agent is Enemy) {
+			startAutoCapture(agent);
+		}
+	}
+
+	void startAutoCapture (Agent agent) {
+		// Halts any previous thread
+		haltAutoCapture();
+		autoCaptureCoroutine = autoCapture(agent.GetCaptureTime(this));
+		StartCoroutine(autoCaptureCoroutine);
+	}
+
+	void haltAutoCapture () {
+		if (autoCaptureCoroutine != null) {
+			StopCoroutine(autoCaptureCoroutine);
+		}
+	}
+
+	IEnumerator autoCapture (float captureTime) {
+		float timer = 0f;
+		while (timer <= captureTime) {
+			UpdateCaptureProgress(timer / captureTime);
+			yield return new WaitForEndOfFrame();
+			timer += Time.deltaTime;
+		}
+		UpdateCaptureProgress(1);
 	}
 
 	// Capture Progress should be clamped between 0..1.0f
@@ -129,12 +156,19 @@ public class Node : StaticObjectBehaviour {
 	// Capture Progress should be clamped between 0..1.0f
 	public void UpdateCaptureProgress (Agent agent, float captureProgress) {
 		setColour(Color.Lerp(Colour, agent.Colour, this.captureProgress = captureProgress), false);
+		if (captureProgress >= 1) {
+			ClaimWith(agent);
+		}
 	}
 
 	public void EndCapturing () {
 		this.capturer = null;
 		startLerpColor(Colour, captureProgress);
 		captureProgress = 0;
+	}
+
+	public void TickCapturing () {
+		capture.TickCapture();
 	}
 
 	Connection spawnConnection () {
@@ -146,6 +180,6 @@ public class Node : StaticObjectBehaviour {
 
 	// TODO: Remove this (for debugging only)
 	void OnMouseDown () {
-		beginConnection(Player.Instance);
+		ClaimWith(Player.Instance);
 	}
 }

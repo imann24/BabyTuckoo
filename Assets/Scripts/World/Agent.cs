@@ -7,10 +7,15 @@ using UnityEngine;
 using System.Collections;
 
 public abstract class Agent : MobileObjectBehaviour {
-	Game game;
+	public float CaptureTimeUnclaimed = 2f;
+	public float CaptureTimeOpponent = 5f;
+
+	protected Game game;
 	HomeNode _home;
 	Connection currentConnection;
 	Node currentNode;
+	// TODO: Set focus node to actually equal soomething
+	protected Node focusNode;
 	public HomeNode Home { 
 		get {
 			return _home;
@@ -58,9 +63,23 @@ public abstract class Agent : MobileObjectBehaviour {
 		fetchHomeFromGame();
 	}
 
+	protected bool ownsNode (Node node) {
+		return node.Owner == this;
+	}
+
 	void fetchHomeFromGame () {
 		if (this.game.TryGetHome(this, out _home)) {
 			currentNode = _home;
+		}
+	}
+
+	public float GetCaptureTime (Node node) {
+		if (ownsNode(node)) {
+			return 0;
+		} else if (node.IsOwned) {
+			return CaptureTimeOpponent;
+		} else {
+			return CaptureTimeUnclaimed;
 		}
 	}
 }
